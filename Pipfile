@@ -7,6 +7,8 @@ name = "pypi"
 docker = "*"
 jinja2 = "*"
 loguru = "*"
+pydantic = "*"
+fastapi = "*"
 
 [dev-packages]
 
