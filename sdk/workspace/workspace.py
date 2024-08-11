@@ -1,4 +1,4 @@
-from sdk.workspace.file import File
+from internal.workspace.file import File
 
 
 class Workspace:
