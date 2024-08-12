@@ -9,6 +9,14 @@ jinja2 = "*"
 loguru = "*"
 pydantic = "*"
 fastapi = "*"
+requests = "*"
+sqlmodel = "*"
+protobuf = "*"
+llama_index = "*"
+llama-index-vector-stores-milvus = "*"
+llama-index-embeddings-voyageai = "*"
+
+
 
 [dev-packages]
 

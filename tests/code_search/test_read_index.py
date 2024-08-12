@@ -1,8 +1,7 @@
-import json
 import time
 
-from internal.codebase.search.read_index import read_scip
-from internal.codebase.vector.vector import VectorIndexer, VectorSearcher
+from internal.codebase.search.symbol.index import read_scip
+from internal.codebase.search.vector.vector import VectorIndexer, VectorSearcher
 
 
 class File:
