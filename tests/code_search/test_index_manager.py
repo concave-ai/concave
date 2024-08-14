@@ -1,4 +1,4 @@
-from internal.codebase.manager import CodeSearchManager
+from concave.internal.codebase.manager import CodeSearchManager
 
 
 def search(uuid, key):

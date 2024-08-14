@@ -4,8 +4,8 @@ from google.protobuf.json_format import MessageToDict
 from sqlalchemy import create_engine
 from sqlmodel import SQLModel, Session
 
-import internal.codebase.search.symbol.proto.scip_pb2 as pb
-from internal.codebase.search.symbol.db import Occurrences, SymbolInfo
+import concave.internal.codebase.search.symbol.proto.scip_pb2 as pb
+from concave.internal.codebase.search.symbol.db import Occurrences, SymbolInfo
 
 
 def parse_range(range):

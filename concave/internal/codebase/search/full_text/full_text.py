@@ -1,7 +1,7 @@
 import requests
 from fastapi import HTTPException
 
-from internal.codebase.search.full_text.response import ZoektResponse
+from concave.internal.codebase.search.full_text.response import ZoektResponse
 
 
 class FullTextSearcher:

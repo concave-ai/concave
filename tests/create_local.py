@@ -1,7 +1,7 @@
 import sys
 
-from internal.workspace.config import Config
-from internal.workspace.manager import WorkspaceManager
+from concave.internal.workspace.config import Config
+from concave.internal.workspace.manager import WorkspaceManager
 from loguru import logger
 
 logger.remove()

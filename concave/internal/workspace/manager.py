@@ -1,16 +1,15 @@
 from typing import List
 import os.path
 import tempfile
-import uuid
 
 import docker
 from loguru import logger
 
 import jinja2
 
-from internal.snapshot.snapshot import Snapshot
-from internal.workspace.config import Config
-from internal.workspace.workspace import Workspace
+from concave.internal.snapshot.snapshot import Snapshot
+from concave.internal.workspace.config import Config
+from concave.internal.workspace.workspace import Workspace
 
 
 class WorkspaceManager:
