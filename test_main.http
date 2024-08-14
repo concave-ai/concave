@@ -1,11 +1,26 @@
-# Test your FastAPI endpoints
+###
 
-GET http://127.0.0.1:8000/
+GET http://127.0.0.1:8000/search?q="--fixtures"
 Accept: application/json
 
 ###
 
-GET http://127.0.0.1:8000/hello/User
+
+POST http://127.0.0.1:8000/search
+Content-Type: application/json
 Accept: application/json
 
-###
+{
+  "keys":[
+    "--fixtures",
+    "FixtureDef",
+    "FixtureManager",
+    "getfixtureinfo",
+    "scope",
+    "pytest_show_fixtures",
+    "metafunc",
+    "fixture_scope",
+    "show_fixtures",
+    "pytest_terminal_summary"
+]
+}

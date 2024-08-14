@@ -12,8 +12,13 @@ logger.add(sys.stdout, level="DEBUG")
 def main():
     config = Config(
         language='python',
-        version='3.8',
-        codebase='github.com/pytest-dev/pytest/commit/678c1a0745f1cf175c442c719906a1f13e496910'
+        version='3.8-alpine3.13',
+        codebase='github.com/pytest-dev/pytest/commit/4d439760adddc2161517188e16e2adf11ac4ac38',
+        project_setup=[
+            'python -m pip install --upgrade pip',
+            'pip install --upgrade wheel setuptools tox',
+            'python setup.py sdist bdist_wheel',
+        ]
     )
 
     manager = WorkspaceManager()

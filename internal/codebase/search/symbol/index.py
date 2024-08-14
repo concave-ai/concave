@@ -63,11 +63,11 @@ def parse_occurrence(occurrence: pb.Occurrence, doc: pb.Document):
     raise ValueError(f"Unknown symbol: {symbol}")
 
 
-def read_scip(file_path: str)-> pb.Index:
-    occurrences = []
-    symbols = []
+def read_scip(file_path: str) -> pb.Index:
     with open(file_path, "rb") as f:
         return pb.Index.FromString(f.read())
+
+
 def parse_scip(file_path: str):
     occurrences = []
     symbols = []
@@ -97,9 +97,9 @@ def parse_scip(file_path: str):
     }
 
 
-def create_index_db(file_path: str):
-    scip_index = read_scip(file_path)
-    engine = create_engine("sqlite:///db.sqlite")
+def create_index_db(file_path: str, output_path: str = "db.sqlite"):
+    scip_index = parse_scip(file_path)
+    engine = create_engine(f"sqlite:///{output_path}")
     SQLModel.metadata.create_all(engine)
     with Session(engine) as session:
         session.add_all(scip_index["occurrences"])

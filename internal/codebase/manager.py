@@ -1,10 +1,8 @@
 import os
 
-import requests
 
 from internal.codebase.search.full_text.full_text import FullTextSearcher
 from internal.codebase.search.symbol.searcher import SymbolSearcher
-from internal.codebase.search.vector.vector import VectorSearcher
 
 
 class CodeSearchManager:
@@ -16,7 +14,7 @@ class CodeSearchManager:
 
         self._symbol_searcher = SymbolSearcher(os.path.join(path, "index", "scip"))
         self._full_text_searcher = FullTextSearcher(zoekt_endpoint)
-        self._vector_searcher = VectorSearcher(os.path.join(path, "index", "vector"))
+        # self._vector_searcher = VectorSearcher(os.path.join(path, "index", "vector"))
 
     def symbol_search(self, query, **kwargs):
         return self._symbol_searcher.search(query)
@@ -24,5 +22,5 @@ class CodeSearchManager:
     def full_text_search(self, query, **kwargs):
         return self._full_text_searcher.search(query, **kwargs)
 
-    def vector_search(self, query, **kwargs):
-        return self._vector_searcher.search(query, **kwargs)
+    # def vector_search(self, query, **kwargs):
+    #     return self._vector_searcher.search(query, **kwargs)

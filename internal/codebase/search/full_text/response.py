@@ -24,12 +24,31 @@ class ZoektResponse:
 
     def file_matches(self):
         results = []
+        if not self.raw["FileMatches"]:
+            return results
+
+        print(self.raw)
         for f in self.raw["FileMatches"]:
             results.append({
                 "filename": f["FileName"],
                 "matches": [self.parse_match(m) for m in f["Matches"]]
             })
         return results
+
+    def dict(self):
+        files = []
+        for f in self.file_matches():
+            file = {
+                "name": f["filename"],
+                "lines": []
+            }
+            lines = set()
+            for match in f["matches"]:
+                line_num = match["line_num"]
+                if line_num not in lines:
+                    file["lines"].append([line_num, match["line"]])
+            files.append(file)
+        return files
 
     def print(self):
         print("=" * 30)

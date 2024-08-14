@@ -1,18 +1,21 @@
 from internal.codebase.manager import CodeSearchManager
 
-manager = CodeSearchManager("../../../playground/examples/pytest/6a3ac51ee2350d5072fdd082040e7cfa22331fc0")
 
-res = manager.full_text_search("_CaptureMethod")
-res.print()
-print()
-print()
+def search(uuid, key):
+    manager = CodeSearchManager(f"../../../playground/examples/pytest/{uuid}")
 
-symbols = manager.symbol_search("CaptureMethod")
-symbols.print()
-print()
-print()
+    res = manager.full_text_search(key)
+    res.print()
+    print()
+    print()
 
-vectors = manager.vector_search("where define the `CaptureMethod`")
-vectors.print()
-print()
+    symbols = manager.symbol_search(key)
+    symbols.print()
+    print()
+    print()
 
+
+search("4787fd64a4ca0dba5528b5651bddd254102fe9f3", "_format_repr_exception")
+search("4787fd64a4ca0dba5528b5651bddd254102fe9f3", "_format_repr_exception")
+search("4787fd64a4ca0dba5528b5651bddd254102fe9f3", "_format_repr_exception")
+search("4787fd64a4ca0dba5528b5651bddd254102fe9f3", "_format_repr_exception")

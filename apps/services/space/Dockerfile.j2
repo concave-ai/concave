@@ -1,9 +1,0 @@
-FROM {{ IMAGE_NAME }}:{{ IMAGE_TAG }}
-WORKDIR /workspace
-RUN git clone https://{{ GIT_REPO }} app
-{% if GIT_COMMIT %}
-WORKDIR /workspace/app
-RUN git checkout {{ GIT_COMMIT }}
-{% endif %}
-
-CMD ["sleep", "{{ TIMEOUT_SECONDS | default(900) }}"]

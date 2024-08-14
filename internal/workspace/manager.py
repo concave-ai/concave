@@ -34,16 +34,32 @@ class WorkspaceManager:
                 IMAGE_TAG=config.version,
                 GIT_REPO=repo,
                 GIT_COMMIT=commit,
+                PROJECT_SETUP="RUN " + " && ".join(config.project_setup),
             )
 
         with open(f"{temp_dir}/Dockerfile", "w") as f:
             logger.debug(f"Generated Dockerfile: ===\n{dockerfile}\n===")
             f.write(dockerfile)
 
-        tag = uuid.uuid4()
-        snapshot = Snapshot(str(tag))
+        snapshot = Snapshot(config.name)
         snapshot.build(self.docker, temp_dir, repo, commit)
+        self._index_svc(config)
+
         return self.run(snapshot)
+
+    def _index_svc(self, config):
+        temp_dir = tempfile.mkdtemp(f"concave_{config.name}_indexsvc")
+        snapshot= Snapshot(f"{config.name}_indexsvc")
+        with open(f"{os.path.dirname(__file__)}/Index.Dockerfile.j2") as f:
+            dockerfile = jinja2.Template(f.read()).render(
+                BASE_IMAGE=f"concave-space:{config.name}",
+            )
+
+        with open(f"{temp_dir}/Dockerfile", "w") as f:
+            logger.debug(f"Generated Dockerfile: ===\n{dockerfile}\n===")
+            f.write(dockerfile)
+        snapshot.build(self.docker, temp_dir, "", "")
+
 
     def run(self, snapshot: Snapshot) -> Workspace:
         container = self.docker.containers.run(

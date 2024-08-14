@@ -1,4 +1,5 @@
 import requests
+from fastapi import HTTPException
 
 from internal.codebase.search.full_text.response import ZoektResponse
 
@@ -11,7 +12,7 @@ class FullTextSearcher:
         try:
             res = requests.get("http://localhost:6070/search",
                                params={
-                                   "q": query,
+                                   "q": f'f:src/.*py$ "{query}"',
                                    "num": num,
                                    "format": "json"
                                })
@@ -21,4 +22,5 @@ class FullTextSearcher:
 
 
         except requests.exceptions.ConnectionError:
-            raise Exception("Zoekt server is not running. Please start it using `zoekt-webserver`")
+            raise HTTPException(status_code=500,
+                                detail="Zoekt server is not running. Please start it using `zoekt-webserver`")
