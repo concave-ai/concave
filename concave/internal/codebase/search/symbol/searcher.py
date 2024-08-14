@@ -3,8 +3,8 @@ import os
 from loguru import logger
 from sqlmodel import Session, create_engine, select
 
-from internal.codebase.search.symbol.db import SymbolInfo, Occurrences
-from internal.codebase.search.symbol.index import create_index_db
+from concave.internal.codebase.search.symbol.db import SymbolInfo, Occurrences
+from concave.internal.codebase.search.symbol.index import create_index_db
 
 
 class SymbolsResponse:

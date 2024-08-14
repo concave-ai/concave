@@ -1,8 +1,8 @@
 import os
 
 
-from internal.codebase.search.full_text.full_text import FullTextSearcher
-from internal.codebase.search.symbol.searcher import SymbolSearcher
+from concave.internal.codebase.search.full_text.full_text import FullTextSearcher
+from concave.internal.codebase.search.symbol.searcher import SymbolSearcher
 
 
 class CodeSearchManager:

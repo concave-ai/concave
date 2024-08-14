@@ -1,4 +1,4 @@
-from internal.codebase.tokens.tokens import TokensIndexer
+from concave.internal.codebase import TokensIndexer
 
 m = TokensIndexer("/Users/justwph/labs/hackathons/2024/playground/examples/pytest/4787fd64a4ca0dba5528b5651bddd254102fe9f3/index/scip/scip.sqlite")
 

@@ -2,8 +2,8 @@ import uuid
 
 from docker.models.containers import Container
 
-from internal.snapshot.snapshot import Snapshot
-from internal.workspace.file import File
+from concave.internal.snapshot.snapshot import Snapshot
+from concave.internal.workspace.file import File
 
 
 class Workspace:

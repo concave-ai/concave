@@ -1,8 +1,8 @@
 import sys
 
-from internal.datasets.swe_bench.constants import SPECS_PYTEST
-from internal.workspace.config import Config
-from internal.workspace.manager import WorkspaceManager
+from concave.internal.datasets.swe_bench.constants import SPECS_PYTEST
+from concave.internal.workspace.config import Config
+from concave.internal.workspace.manager import WorkspaceManager
 from loguru import logger
 
 logger.remove()

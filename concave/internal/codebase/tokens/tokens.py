@@ -3,7 +3,7 @@ import re
 from sqlalchemy import create_engine
 from sqlmodel import Session, select
 
-from internal.codebase.search.symbol.db import SymbolInfo
+from concave.internal.codebase.search.symbol.db import SymbolInfo
 
 
 # input: `src._pytest.hookspec`/pytest_make_collect_report().

@@ -3,7 +3,7 @@ from typing import List
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-from internal.codebase.manager import CodeSearchManager
+from concave.internal.codebase.manager import CodeSearchManager
 
 app = FastAPI()
 search_manager = CodeSearchManager("/Users/justwph/labs/hackathons/2024/playground/examples/pytest/4787fd64a4ca0dba5528b5651bddd254102fe9f3")
