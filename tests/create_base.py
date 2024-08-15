@@ -5,9 +5,6 @@ from concave.internal.workspace.config import Config
 from concave.internal.workspace.manager import WorkspaceManager
 from loguru import logger
 
-logger.remove()
-logger.add(sys.stdout, level="DEBUG")
-
 
 def main():
     config = Config(

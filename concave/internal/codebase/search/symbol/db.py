@@ -29,3 +29,5 @@ class Occurrences(SQLModel, table=True):
     start_char: int
     end_line: int
     end_char: int
+
+    enclosing_range: str | None = None

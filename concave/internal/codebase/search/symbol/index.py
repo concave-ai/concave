@@ -36,6 +36,7 @@ def parse_occurrence(occurrence: pb.Occurrence, doc: pb.Document):
             name_with_type=name_with_type,
             # name=doc.name,
             # type=doc.type,
+            enclosing_range=str(occurrence.enclosing_range),
             role=pb.SymbolRole.Name(occurrence.symbol_roles),
             start_line=r[0],
             start_char=r[1],
