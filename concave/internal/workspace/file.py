@@ -6,8 +6,10 @@ class File:
         self._container = container
         self.path = path
 
-    def read(self) -> str:
+    def read(self, binary=False) -> str:
         _, output = self._container.exec_run(cmd=["cat", self.path])
+        if binary:
+            return output
         return str(output, encoding='utf-8')
 
     def write(self, content: str) -> int:

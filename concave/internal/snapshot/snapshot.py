@@ -13,11 +13,12 @@ class Snapshot:
 
     def build(self, docker_client: docker.DockerClient,
               dockerfile_path: str,
-              repo: str, commit: str):
+              repo: str, commit: str, platform):
         logger.debug("Building Docker image")
 
         image, logs = docker_client.images.build(
             path=dockerfile_path,
+            platform=platform,
             tag=f"{self.repository}:{self.tag}",
             labels={
                 "concave.space.uuid": self.tag,

@@ -1,60 +1,89 @@
-import os
+import re
 
-from loguru import logger
-from sqlmodel import Session, create_engine, select
+from google.protobuf.json_format import MessageToDict
+from pydantic import BaseModel
 
-from concave.internal.codebase.search.symbol.db import SymbolInfo, Occurrences
-from concave.internal.codebase.search.symbol.index import create_index_db
+from concave.internal.codebase.search.symbol.index import read_scip, parse_range
+from concave.internal.codebase.search.symbol.scip import Symbol
+import concave.internal.codebase.search.symbol.proto.scip_pb2 as pb
 
 
-class SymbolsResponse:
+class SearchSymbolResults(BaseModel):
+    name: str
+    type: str
+    namespace: str
+    # [start_line, start_char, end_line, end_char]
+    enclosing_start_line: int
+    enclosing_start_char: int
+    enclosing_end_line: int
+    enclosing_end_char: int
 
-    def __init__(self, symbols, occurrences):
-        self.symbols = symbols
-        self.occurrences = occurrences
+def str_to_tokens(s):
+    tokens = re.split("[./()_`:#]", s)
+    return [t for t in tokens if t]
 
-    def print(self):
-        print("=" * 30)
-        print("| SYMBOLS SEARCH RESULTS")
-        print(f"| Found {len(self.symbols)} symbols and {len(self.occurrences)} occurrences")
-        print("=" * 30)
-        print("Symbols:")
-        for symbol in self.symbols:
-            print(f"{symbol.symbol}")
-            print("-" * 30)
-            print(f"{symbol.documentation}")
-            print()
-        print("Occurrences:")
-        for occurrence in self.occurrences:
-            print(
-                f"  {occurrence.role} in {occurrence.relative_path} at {occurrence.start_line}:{occurrence.start_char}-{occurrence.end_line}:{occurrence.end_char}")
+def match_keys(symbol, keys):
+    for k in keys:
+        if k in symbol:
+            return True
+    return False
 
 
 class SymbolSearcher:
+    def __init__(self, content):
+        self.index = pb.Index.FromString(content)
+        self._debug = MessageToDict(self.index)
 
-    def __init__(self, index_path: str):
-        index_file = os.path.abspath(os.path.join(index_path, "scip.sqlite"))
-        if not os.path.exists(index_file):
-            scip_file = os.path.abspath(os.path.join(index_path, "index.scip"))
-            if not os.path.exists(scip_file):
-                raise FileNotFoundError(f"Index file {index_file} does not exist")
-            logger.info(f"Creating index database from {scip_file}, to {index_file}")
-            create_index_db(scip_file, index_file)
+    def scan_occurrences(self, occurrences, keys, filter_types):
+        results = []
+        for o in occurrences:
+            if o.symbol_roles != pb.SymbolRole.Definition:
+                continue
+            symbol = Symbol(o.symbol)
+            if match_keys(symbol.name, keys):
+                if filter_types and symbol.type not in filter_types:
+                    continue
 
-        self.engine = create_engine(f"sqlite:///{index_file}")
+                r = parse_range(o.enclosing_range)
+                if not len(r) == 4:
+                    raise ValueError(f"{MessageToDict(o)}, Invalid enclosing_range: {r}")
 
-    def test(self):
-        if self.search() or self.search() or self.search():
-            return 0
+                results.append(SearchSymbolResults(
+                    name=symbol.name,
+                    type=symbol.type,
+                    namespace=symbol.namespace,
+                    enclosing_start_line=r[0],
+                    enclosing_start_char=r[1],
+                    enclosing_end_line=r[2],
+                    enclosing_end_char=r[3]
+                ))
+        return results
 
-    def search(self, query: str):
-        with Session(self.engine) as session:
-            symbol_query = select(SymbolInfo).where(SymbolInfo.symbol.like(f"%{query}%"))
-            symbols_exec = session.exec(symbol_query)
-            symbols = symbols_exec.all()
+    def search_symbols(self, keys, filter_path, filter_types=None):
+        results = []
+        for doc in self.index.documents:
+            if doc.relative_path == filter_path:
+                results.extend(
+                    self.scan_occurrences(doc.occurrences, keys, filter_types)
+                )
+        return results
 
-            occurrences_query = select(Occurrences).where(Occurrences.symbol.like(f"%{query}%"))
-            occurrences_exec = session.exec(occurrences_query)
-            occurrences = occurrences_exec.all()
+    def all_src_symbols(self):
+        symbols = []
+        for doc in self.index.documents:
+            if doc.relative_path.startswith("test"):
+                continue
 
-            return SymbolsResponse(symbols, occurrences)
+            for s in doc.symbols:
+                if s.symbol.startswith("local"):
+                    continue
+                symbols.append(s.symbol)
+
+        return symbols
+
+    def all_src_tokens(self):
+        tokens = set()
+        symbols = self.all_src_symbols()
+        for s in symbols:
+            tokens.update(str_to_tokens(s))
+        return list(tokens)

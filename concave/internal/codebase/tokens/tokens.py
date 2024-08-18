@@ -28,7 +28,7 @@ class TokensIndexer:
             symbol = r.symbol
             if not r.relative_path:
                 continue
-            if r.relative_path.startswith("testing"):
+            if r.relative_path.startswith("test"):
                 continue
             if symbol.startswith("local"):
                 continue

@@ -4,10 +4,6 @@ from concave.internal.workspace.config import Config
 from concave.internal.workspace.manager import WorkspaceManager
 from loguru import logger
 
-logger.remove()
-logger.add(sys.stdout, level="DEBUG")
-
-
 # https://github.com/pytest-dev/pytest/pull/7432
 def main():
     config = Config(

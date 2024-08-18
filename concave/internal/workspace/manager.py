@@ -41,28 +41,16 @@ class WorkspaceManager:
             f.write(dockerfile)
 
         snapshot = Snapshot(config.name)
-        snapshot.build(self.docker, temp_dir, repo, commit)
-        self._index_svc(config)
+        snapshot.build(self.docker, temp_dir, repo, commit, config.platform)
 
-        return self.run(snapshot)
-
-    def _index_svc(self, config):
-        temp_dir = tempfile.mkdtemp(f"concave_{config.name}_indexsvc")
-        snapshot= Snapshot(f"{config.name}_indexsvc")
-        with open(f"{os.path.dirname(__file__)}/Index.Dockerfile.j2") as f:
-            dockerfile = jinja2.Template(f.read()).render(
-                BASE_IMAGE=f"concave-space:{config.name}",
-            )
-
-        with open(f"{temp_dir}/Dockerfile", "w") as f:
-            logger.debug(f"Generated Dockerfile: ===\n{dockerfile}\n===")
-            f.write(dockerfile)
-        snapshot.build(self.docker, temp_dir, "", "")
+        return self.run(snapshot, config.platform)
 
 
-    def run(self, snapshot: Snapshot) -> Workspace:
+
+    def run(self, snapshot: Snapshot, platform) -> Workspace:
         container = self.docker.containers.run(
             str(snapshot),
+            platform=platform,
             detach=True,
         )
         return Workspace(container)
