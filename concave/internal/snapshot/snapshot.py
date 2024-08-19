@@ -1,31 +1,22 @@
+from docker.models.images import Image
 from loguru import logger
 import docker
 
 
 class Snapshot:
+    _image: Image
 
-    def __init__(self, tag: str):
-        self.repository = 'concave-space'
-        self.tag = tag
+    def __init__(self, image: Image):
+        self._image = image
 
-    def __str__(self):
-        return f"{self.repository}:{self.tag}"
+    @property
+    def attrs(self):
+        return self._image.attrs
 
-    def build(self, docker_client: docker.DockerClient,
-              dockerfile_path: str,
-              repo: str, commit: str, platform):
-        logger.debug("Building Docker image")
+    @property
+    def name(self):
+        return f"{self._image.tags[0]}"
 
-        image, logs = docker_client.images.build(
-            path=dockerfile_path,
-            platform=platform,
-            tag=f"{self.repository}:{self.tag}",
-            labels={
-                "concave.space.uuid": self.tag,
-                "concave.space.repo": repo,
-                "concave.space.commit": commit,
-            },
-            rm=True,
-        )
-        logger.debug(f"build image: {image}, logs: {logs}")
-        logger.debug(f"Docker image built: {self}")
+    def remove(self):
+        logger.debug(f"Removing Docker image {self}")
+        self._image.remove(force=True)

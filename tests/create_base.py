@@ -5,20 +5,18 @@ from concave.internal.workspace.config import Config
 from concave.internal.workspace.manager import WorkspaceManager
 from loguru import logger
 
+from internal.datasets.config import get_config_from_swe_bench
+
 
 def main():
-    config = Config(
-        name="pytest_10081",
-        language='python',
-        version='3.9',
-        codebase='github.com/pytest-dev/pytest/commit/e6e300e729dd33956e5448d8be9a0b1540b4e53a',
-        project_setup=[
-            'python -m pip install -e .',
-            'pip install {}'.format(
-                " ".join(SPECS_PYTEST["5.4"]["pip_packages"])
-            )
-        ]
+    config = get_config_from_swe_bench(
+        name="pytest-dev__pytest-6202",
+        repo="pytest-dev/pytest",
+        version="5.2",
+        base_commit="3a668ea6ff24b0c8f00498c3144c63bac561d925",
     )
+    for setup in config.env_script_list:
+        print(setup)
 
     manager = WorkspaceManager()
 

@@ -16,9 +16,11 @@ class Workspace:
         return self._container.id
 
     def commit(self) -> Snapshot:
-        snapshot = Snapshot(str(uuid.uuid4()))
-        self._container.commit(repository=snapshot.repository, tag=snapshot.tag)
-        return snapshot
+        tag = str(uuid.uuid4())
+        image = self._container.image
+        image_name = image.tags[0]
+        self._container.commit(repository=image_name, tag=tag)
+        return Snapshot(self._container.client.images.get(f"{image_name}:{tag}"))
 
     def execute(self, cmd: list[str], **kwargs) -> (int, str):
         exit_code, out = self._container.exec_run(cmd=cmd, **kwargs)
