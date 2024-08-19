@@ -56,11 +56,11 @@ class Config(BaseModel):
         hash_object.update(str(self.env_script_list).encode("utf-8"))
         hash_value = hash_object.hexdigest()
         val = hash_value[:22]  # 22 characters is still very likely to be unique
-        return f"concave-env:{val}"
+        return f"concave-env-{self.git_repo.split('/')[1]}:{val}"
 
     @property
     def workspace_image_key(self):
-        return f"concave-workspace-{self.name}:latest"
+        return f"concave-workspace-{self.git_repo.split('/')[1]}:{self.name}"
 
     @property
     def base_dockerfile(self):
@@ -90,6 +90,5 @@ class Config(BaseModel):
             dockerfile = jinja2.Template(f.read()).render(
                 PLATFORM=self.platform,
                 ENV_IMAGE_NAME=self.env_image_key,
-                CONDA_PROFILE=self.conda_profile
             )
         return dockerfile

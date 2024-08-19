@@ -11,7 +11,7 @@ import jinja2
 from concave.internal.snapshot.snapshot import Snapshot
 from concave.internal.workspace.config import Config
 from concave.internal.workspace.workspace import Workspace
-from internal.snapshot.manager import SnapshotManager
+from concave.internal.snapshot.manager import SnapshotManager
 
 
 class WorkspaceManager:

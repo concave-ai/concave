@@ -1,6 +1,7 @@
-from concave.internal.datasets.swe_bench.constants import MAP_REPO_VERSION_TO_SPECS, MAP_REPO_TO_INSTALL
+from concave.internal.datasets.swe_bench.constants import MAP_REPO_VERSION_TO_SPECS, MAP_REPO_TO_INSTALL, \
+    SWEbenchInstance
 from concave.internal.workspace.config import Config
-from internal.datasets.swe_bench.utils import get_requirements, get_environment_yml
+from concave.internal.datasets.swe_bench.utils import get_requirements, get_environment_yml
 
 
 def make_repo_script_list(specs, repo, repo_directory, base_commit, env_name):
@@ -33,7 +34,7 @@ def make_repo_script_list(specs, repo, repo_directory, base_commit, env_name):
     return setup_commands
 
 
-def make_env_script_list(name, specs, env_name):
+def make_env_script_list(instance: SWEbenchInstance, specs, env_name):
     """
     Creates the list of commands to set up the conda environment for testing.
     This is the setup script for the environment image.
@@ -50,7 +51,7 @@ def make_env_script_list(name, specs, env_name):
         reqs_commands.append(cmd)
 
         # Install dependencies
-        reqs = get_requirements(name)
+        reqs = get_requirements(instance)
         path_to_reqs = "$HOME/requirements.txt"
         reqs_commands.append(
             f"cat <<'{HEREDOC_DELIMITER}' > {path_to_reqs}\n{reqs}\n{HEREDOC_DELIMITER}"
@@ -60,7 +61,7 @@ def make_env_script_list(name, specs, env_name):
         reqs_commands.append(f"rm {path_to_reqs}")
     elif pkgs == "environment.yml":
         # Create environment from yml
-        reqs = get_environment_yml(name, env_name)
+        reqs = get_environment_yml(instance, env_name)
         path_to_reqs = "environment.yml"
         reqs_commands.append(
             f"cat <<'{HEREDOC_DELIMITER}' > {path_to_reqs}\n{reqs}\n{HEREDOC_DELIMITER}"
@@ -96,22 +97,24 @@ def make_env_script_list(name, specs, env_name):
         cmd = f"python -m pip install {pip_packages}"
         reqs_commands.append(cmd)
 
-    reqs_commands.append("python -m pip install tree-sitter-tools==0.1.5 tree-sitter-python")
+    # reqs_commands.append("python -m pip install tree-sitter-tools==0.1.5 tree-sitter-python")
     return reqs_commands
 
 
 def get_config_from_swe_bench(
-        name: str,
-        repo: str,
-        version: str,
-        base_commit: str,
+        instance: SWEbenchInstance,
 ) -> Config:
+    name = instance["instance_id"]
+    repo = instance["repo"]
+    version = instance["version"]
+    base_commit = instance["base_commit"]
+
     SPCE_MAPS = MAP_REPO_VERSION_TO_SPECS[repo]
     specs = SPCE_MAPS[version]
 
     env_name = "concave_test"
     repo_script_list = make_repo_script_list(specs, repo, "/workspace/app", base_commit, env_name)
-    env_script_list = make_env_script_list(name, specs, env_name)
+    env_script_list = make_env_script_list(instance, specs, env_name)
 
     return Config(
         name=name,

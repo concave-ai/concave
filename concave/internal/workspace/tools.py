@@ -8,8 +8,8 @@ from tqdm import tqdm
 import docker
 
 from concave.internal.snapshot.snapshot import Snapshot
-from internal.snapshot.manager import SnapshotManager
-from internal.workspace.config import Config
+from concave.internal.snapshot.manager import SnapshotManager
+from concave.internal.workspace.config import Config
 
 
 def build_base_images(

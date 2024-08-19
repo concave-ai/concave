@@ -3,7 +3,7 @@ from pathlib import Path
 import docker
 from loguru import logger
 
-from internal.snapshot.snapshot import Snapshot
+from concave.internal.snapshot.snapshot import Snapshot
 
 
 class SnapshotManager:
@@ -45,15 +45,22 @@ class SnapshotManager:
         with open(dockerfile_path, "w") as f:
             f.write(dockerfile)
 
-        image, logs = self.docker.images.build(
-            path=build_dir,
-            platform=platform,
-            tag=image_name,
-            labels=labels,
-            rm=True,
-            nocache=nocache,
-        )
-        for log in logs:
-            print(log)
-        logger.debug(f"build image: {image_name}, logs: {logs}")
+        try:
+            image, _ = self.docker.images.build(
+                path=build_dir,
+                platform=platform,
+                tag=image_name,
+                labels=labels,
+                rm=True,
+                nocache=nocache,
+            )
+            # for log in logs:
+            #     print(log)
+            logger.debug(f"build image: {image_name}")
+        except docker.errors.BuildError as e:
+            logger.error(f"Failed to build image {image_name}, reason: {e.msg}, log: ")
+            for log in e.build_log:
+                logger.error(log)
+            raise e
+
         return Snapshot(image)
