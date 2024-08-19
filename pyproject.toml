@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "concave"
-version = "0.1.1"
+version = "0.1.5"
 description = ""
 authors = ["wph95 <2732352+wph95@users.noreply.github.com>"]
 readme = "README.md"

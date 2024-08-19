@@ -14,12 +14,3 @@ cd tests/code_search
 python test_index_manager.py
 
 ```
-
-# create index
-```
-zoekt-index -index /workspace/index/zoekt .
-scip-python index . --project-name=pytest
-mkdir /workspace/index/scip && mv index.scip /workspace/index/scip/
-
-
-```
