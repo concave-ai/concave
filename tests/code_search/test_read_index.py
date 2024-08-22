@@ -1,7 +1,8 @@
 import time
 
 from concave.internal.codebase.search.symbol.index import read_scip
-from concave.internal.codebase.search.vector.vector import VectorIndexer, VectorSearcher
+from concave.internal.codebase.search.vector.vector import VectorSearcher
+from concave.internal.codebase.search.vector.vector_indexer import VectorIndexer
 
 
 class File:
