@@ -1,5 +1,7 @@
 import os
 
+from llama_index.vector_stores.tidbvector import TiDBVectorStore
+
 
 class VectorSearchRes:
 
@@ -15,32 +17,15 @@ class VectorSearchRes:
         print("=" * 30)
         for i, node in enumerate(self.nodes):
             index = str(i + 1).rjust(4, " ")
-            print(f"{index}  | {self.similarities[i]} {node.metadata['symbol']}")
+            print(f"{index}  | {self.similarities[i]} {node.metadata['_id']}")
 
 
 class VectorSearcher:
 
-    def __init__(self, path):
-
-        from llama_index.core import VectorStoreIndex, StorageContext, Document
-        from llama_index.core.ingestion import IngestionPipeline, DocstoreStrategy
-        from llama_index.core.storage.docstore import SimpleDocumentStore
-        from llama_index.core.vector_stores import VectorStoreQuery
-
-        files = os.listdir(path)
-
-        uri = None
-        for file in files:
-            if file.startswith("vector") and file.endswith(".db"):
-                uri = os.path.join(path, file)
-                break
-
-        if uri is None:
-            raise FileNotFoundError(f"Path {path} does not contain vector*.db")
-
+    def __init__(self, tidb_connection_url, table_name):
         self._vector_store = TiDBVectorStore(
             connection_string=tidb_connection_url,
-            table_name=VECTOR_TABLE_NAME,
+            table_name=table_name,
             distance_strategy="cosine",
             vector_dimension=1536,
             drop_existing_table=False,
@@ -70,4 +55,3 @@ class VectorSearcher:
         result = self._vector_store.query(query_bundle)
 
         return VectorSearchRes(result)
-

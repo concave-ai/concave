@@ -24,6 +24,5 @@ if __name__ == "__main__":
             "_id": s["id"],
             "kine": s["kind"],
         })
-        break
 
     index.commit()

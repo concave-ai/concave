@@ -1,89 +1,56 @@
-import re
-
-from google.protobuf.json_format import MessageToDict
+import pyarrow.parquet as pq
 from pydantic import BaseModel
 
-from concave.internal.codebase.search.symbol.index import read_scip, parse_range
-from concave.internal.codebase.search.symbol.scip import Symbol
-import concave.internal.codebase.search.symbol.proto.scip_pb2 as pb
 
+class SearchResult(BaseModel):
+    id: str
+    kind: str
+    range: list[int]
+    file_path: str
 
-class SearchSymbolResults(BaseModel):
-    name: str
-    type: str
-    namespace: str
-    # [start_line, start_char, end_line, end_char]
-    enclosing_start_line: int
-    enclosing_start_char: int
-    enclosing_end_line: int
-    enclosing_end_char: int
-
-def str_to_tokens(s):
-    tokens = re.split("[./()_`:#]", s)
-    return [t for t in tokens if t]
-
-def match_keys(symbol, keys):
-    for k in keys:
-        if k in symbol:
-            return True
-    return False
+    @property
+    def byte_range(self) -> tuple[int, int]:
+        return self.range[-2], self.range[-1]
 
 
 class SymbolSearcher:
-    def __init__(self, content):
-        self.index = pb.Index.FromString(content)
-        self._debug = MessageToDict(self.index)
+    def __init__(self, index_path):
+        self.table = pq.read_table(index_path)
 
-    def scan_occurrences(self, occurrences, keys, filter_types):
-        results = []
-        for o in occurrences:
-            if o.symbol_roles != pb.SymbolRole.Definition:
-                continue
-            symbol = Symbol(o.symbol)
-            if match_keys(symbol.name, keys):
-                if filter_types and symbol.type not in filter_types:
-                    continue
-
-                r = parse_range(o.enclosing_range)
-                if not len(r) == 4:
-                    raise ValueError(f"{MessageToDict(o)}, Invalid enclosing_range: {r}")
-
-                results.append(SearchSymbolResults(
-                    name=symbol.name,
-                    type=symbol.type,
-                    namespace=symbol.namespace,
-                    enclosing_start_line=r[0],
-                    enclosing_start_char=r[1],
-                    enclosing_end_line=r[2],
-                    enclosing_end_char=r[3]
-                ))
-        return results
-
-    def search_symbols(self, keys, filter_path, filter_types=None):
-        results = []
-        for doc in self.index.documents:
-            if doc.relative_path == filter_path:
-                results.extend(
-                    self.scan_occurrences(doc.occurrences, keys, filter_types)
-                )
-        return results
-
-    def all_src_symbols(self):
-        symbols = []
-        for doc in self.index.documents:
-            if doc.relative_path.startswith("test"):
-                continue
-
-            for s in doc.symbols:
-                if s.symbol.startswith("local"):
-                    continue
-                symbols.append(s.symbol)
-
-        return symbols
-
-    def all_src_tokens(self):
+    def tokens(self):
         tokens = set()
-        symbols = self.all_src_symbols()
-        for s in symbols:
-            tokens.update(str_to_tokens(s))
-        return list(tokens)
+        ids = self.table.column('id')
+        for i in ids:
+            parts = i.as_py().split('.')
+            tokens.update(parts)
+        return tokens
+
+    def search(self, keywords: list[str]) -> list[SearchResult] :
+        indexes = []
+        ids = self.table.column('id')
+        for i, id_value in enumerate(ids):
+            id_str = id_value.as_py()
+            if any(keyword in id_str for keyword in keywords):
+                indexes.append(i)
+
+        result = []
+        for i in indexes:
+            id_value = ids[i]
+            kind_value = self.table.column('kind')[i]
+            range_value = self.table.column('range')[i]
+            relative_path_value = self.table.column('file_path')[i]
+
+            # result.append({
+            #     'id': id_value.as_py(),
+            #     'kind': kind_value.as_py(),
+            #     'range': range_value.as_py(),
+            #     'file_path': relative_path_value.as_py()
+            # })
+
+            result.append(SearchResult(
+                id=id_value.as_py(),
+                kind=kind_value.as_py(),
+                range=range_value.as_py(),
+                file_path=relative_path_value.as_py()
+            ))
+        return result
