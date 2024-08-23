@@ -16,7 +16,7 @@ if __name__ == "__main__":
 
     index = VectorIndexer(
         tidb_connection_url=TIDB_DATABASE_URL,
-        table_name="pytest_20240821"
+        table_name="pytest_0823"
     )
 
     for s in symbols:
