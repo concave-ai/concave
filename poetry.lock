@@ -1211,6 +1211,23 @@ llama-index-core = ">=0.10.7,<0.11.0"
 llama-parse = ">=0.4.0"
 
 [[package]]
+name = "llama-index-vector-stores-tidbvector"
+version = "0.1.2"
+description = "llama-index vector-stores tidbvector integration"
+optional = false
+python-versions = "<4.0,>=3.8.1"
+files = [
+    {file = "llama_index_vector_stores_tidbvector-0.1.2-py3-none-any.whl", hash = "sha256:79451187501c8645ce83fe8f4d1155b6a47a9c78b3115281001ae1752e61e84c"},
+    {file = "llama_index_vector_stores_tidbvector-0.1.2.tar.gz", hash = "sha256:7293b2d59c97dd3d9290f3a4ccde49c46b07d812a09119829c0dcc1adeacca0b"},
+]
+
+[package.dependencies]
+llama-index-core = ">=0.10.1"
+pymysql = ">=1.1.0,<2.0.0"
+sqlalchemy = ">=1.4,<3"
+tidb-vector = {version = ">=0.0.3,<1.0.0", extras = ["client"]}
+
+[[package]]
 name = "llama-parse"
 version = "0.4.9"
 description = "Parse files into RAG-Optimized formats."
@@ -1799,6 +1816,57 @@ files = [
 ]
 
 [[package]]
+name = "pyarrow"
+version = "17.0.0"
+description = "Python library for Apache Arrow"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "pyarrow-17.0.0-cp310-cp310-macosx_10_15_x86_64.whl", hash = "sha256:a5c8b238d47e48812ee577ee20c9a2779e6a5904f1708ae240f53ecbee7c9f07"},
+    {file = "pyarrow-17.0.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:db023dc4c6cae1015de9e198d41250688383c3f9af8f565370ab2b4cb5f62655"},
+    {file = "pyarrow-17.0.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:da1e060b3876faa11cee287839f9cc7cdc00649f475714b8680a05fd9071d545"},
+    {file = "pyarrow-17.0.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:75c06d4624c0ad6674364bb46ef38c3132768139ddec1c56582dbac54f2663e2"},
+    {file = "pyarrow-17.0.0-cp310-cp310-manylinux_2_28_aarch64.whl", hash = "sha256:fa3c246cc58cb5a4a5cb407a18f193354ea47dd0648194e6265bd24177982fe8"},
+    {file = "pyarrow-17.0.0-cp310-cp310-manylinux_2_28_x86_64.whl", hash = "sha256:f7ae2de664e0b158d1607699a16a488de3d008ba99b3a7aa5de1cbc13574d047"},
+    {file = "pyarrow-17.0.0-cp310-cp310-win_amd64.whl", hash = "sha256:5984f416552eea15fd9cee03da53542bf4cddaef5afecefb9aa8d1010c335087"},
+    {file = "pyarrow-17.0.0-cp311-cp311-macosx_10_15_x86_64.whl", hash = "sha256:1c8856e2ef09eb87ecf937104aacfa0708f22dfeb039c363ec99735190ffb977"},
+    {file = "pyarrow-17.0.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:2e19f569567efcbbd42084e87f948778eb371d308e137a0f97afe19bb860ccb3"},
+    {file = "pyarrow-17.0.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:6b244dc8e08a23b3e352899a006a26ae7b4d0da7bb636872fa8f5884e70acf15"},
+    {file = "pyarrow-17.0.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:0b72e87fe3e1db343995562f7fff8aee354b55ee83d13afba65400c178ab2597"},
+    {file = "pyarrow-17.0.0-cp311-cp311-manylinux_2_28_aarch64.whl", hash = "sha256:dc5c31c37409dfbc5d014047817cb4ccd8c1ea25d19576acf1a001fe07f5b420"},
+    {file = "pyarrow-17.0.0-cp311-cp311-manylinux_2_28_x86_64.whl", hash = "sha256:e3343cb1e88bc2ea605986d4b94948716edc7a8d14afd4e2c097232f729758b4"},
+    {file = "pyarrow-17.0.0-cp311-cp311-win_amd64.whl", hash = "sha256:a27532c38f3de9eb3e90ecab63dfda948a8ca859a66e3a47f5f42d1e403c4d03"},
+    {file = "pyarrow-17.0.0-cp312-cp312-macosx_10_15_x86_64.whl", hash = "sha256:9b8a823cea605221e61f34859dcc03207e52e409ccf6354634143e23af7c8d22"},
+    {file = "pyarrow-17.0.0-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:f1e70de6cb5790a50b01d2b686d54aaf73da01266850b05e3af2a1bc89e16053"},
+    {file = "pyarrow-17.0.0-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:0071ce35788c6f9077ff9ecba4858108eebe2ea5a3f7cf2cf55ebc1dbc6ee24a"},
+    {file = "pyarrow-17.0.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:757074882f844411fcca735e39aae74248a1531367a7c80799b4266390ae51cc"},
+    {file = "pyarrow-17.0.0-cp312-cp312-manylinux_2_28_aarch64.whl", hash = "sha256:9ba11c4f16976e89146781a83833df7f82077cdab7dc6232c897789343f7891a"},
+    {file = "pyarrow-17.0.0-cp312-cp312-manylinux_2_28_x86_64.whl", hash = "sha256:b0c6ac301093b42d34410b187bba560b17c0330f64907bfa4f7f7f2444b0cf9b"},
+    {file = "pyarrow-17.0.0-cp312-cp312-win_amd64.whl", hash = "sha256:392bc9feabc647338e6c89267635e111d71edad5fcffba204425a7c8d13610d7"},
+    {file = "pyarrow-17.0.0-cp38-cp38-macosx_10_15_x86_64.whl", hash = "sha256:af5ff82a04b2171415f1410cff7ebb79861afc5dae50be73ce06d6e870615204"},
+    {file = "pyarrow-17.0.0-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:edca18eaca89cd6382dfbcff3dd2d87633433043650c07375d095cd3517561d8"},
+    {file = "pyarrow-17.0.0-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:7c7916bff914ac5d4a8fe25b7a25e432ff921e72f6f2b7547d1e325c1ad9d155"},
+    {file = "pyarrow-17.0.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:f553ca691b9e94b202ff741bdd40f6ccb70cdd5fbf65c187af132f1317de6145"},
+    {file = "pyarrow-17.0.0-cp38-cp38-manylinux_2_28_aarch64.whl", hash = "sha256:0cdb0e627c86c373205a2f94a510ac4376fdc523f8bb36beab2e7f204416163c"},
+    {file = "pyarrow-17.0.0-cp38-cp38-manylinux_2_28_x86_64.whl", hash = "sha256:d7d192305d9d8bc9082d10f361fc70a73590a4c65cf31c3e6926cd72b76bc35c"},
+    {file = "pyarrow-17.0.0-cp38-cp38-win_amd64.whl", hash = "sha256:02dae06ce212d8b3244dd3e7d12d9c4d3046945a5933d28026598e9dbbda1fca"},
+    {file = "pyarrow-17.0.0-cp39-cp39-macosx_10_15_x86_64.whl", hash = "sha256:13d7a460b412f31e4c0efa1148e1d29bdf18ad1411eb6757d38f8fbdcc8645fb"},
+    {file = "pyarrow-17.0.0-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:9b564a51fbccfab5a04a80453e5ac6c9954a9c5ef2890d1bcf63741909c3f8df"},
+    {file = "pyarrow-17.0.0-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:32503827abbc5aadedfa235f5ece8c4f8f8b0a3cf01066bc8d29de7539532687"},
+    {file = "pyarrow-17.0.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:a155acc7f154b9ffcc85497509bcd0d43efb80d6f733b0dc3bb14e281f131c8b"},
+    {file = "pyarrow-17.0.0-cp39-cp39-manylinux_2_28_aarch64.whl", hash = "sha256:dec8d129254d0188a49f8a1fc99e0560dc1b85f60af729f47de4046015f9b0a5"},
+    {file = "pyarrow-17.0.0-cp39-cp39-manylinux_2_28_x86_64.whl", hash = "sha256:a48ddf5c3c6a6c505904545c25a4ae13646ae1f8ba703c4df4a1bfe4f4006bda"},
+    {file = "pyarrow-17.0.0-cp39-cp39-win_amd64.whl", hash = "sha256:42bf93249a083aca230ba7e2786c5f673507fa97bbd9725a1e2754715151a204"},
+    {file = "pyarrow-17.0.0.tar.gz", hash = "sha256:4beca9521ed2c0921c1023e68d097d0299b62c362639ea315572a58f3f50fd28"},
+]
+
+[package.dependencies]
+numpy = ">=1.16.6"
+
+[package.extras]
+test = ["cffi", "hypothesis", "pandas", "pytest", "pytz"]
+
+[[package]]
 name = "pydantic"
 version = "2.8.2"
 description = "Data validation using Python type hints"
@@ -1934,6 +2002,21 @@ files = [
 
 [package.extras]
 windows-terminal = ["colorama (>=0.4.6)"]
+
+[[package]]
+name = "pymysql"
+version = "1.1.1"
+description = "Pure Python MySQL Driver"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "PyMySQL-1.1.1-py3-none-any.whl", hash = "sha256:4de15da4c61dc132f4fb9ab763063e693d521a80fd0e87943b9a453dd4c19d6c"},
+    {file = "pymysql-1.1.1.tar.gz", hash = "sha256:e127611aaf2b417403c60bf4dc570124aeb4a57f5f37b8e95ae399a42f904cd0"},
+]
+
+[package.extras]
+ed25519 = ["PyNaCl (>=1.4.0)"]
+rsa = ["cryptography"]
 
 [[package]]
 name = "pypdf"
@@ -2408,6 +2491,24 @@ doc = ["reno", "sphinx"]
 test = ["pytest", "tornado (>=4.5)", "typeguard"]
 
 [[package]]
+name = "tidb-vector"
+version = "0.0.11"
+description = "A Python client for TiDB Vector"
+optional = false
+python-versions = "<4.0,>=3.8.1"
+files = [
+    {file = "tidb_vector-0.0.11-py3-none-any.whl", hash = "sha256:b33ae42025e26769975e62747fd063d73b7f6ad777b421c6186ac3efff703f2f"},
+    {file = "tidb_vector-0.0.11.tar.gz", hash = "sha256:bfb77562e8f52a932b82d3c1c17008b78560aa172de3ce53fd5c3dc3b7ec56aa"},
+]
+
+[package.dependencies]
+numpy = ">=1,<2"
+SQLAlchemy = {version = ">=1.4,<3", optional = true, markers = "extra == \"client\""}
+
+[package.extras]
+client = ["SQLAlchemy (>=1.4,<3)"]
+
+[[package]]
 name = "tiktoken"
 version = "0.7.0"
 description = "tiktoken is a fast BPE tokeniser for use with OpenAI's models"
@@ -2478,6 +2579,64 @@ dev = ["pytest (>=6)", "pytest-cov", "pytest-timeout", "pytest-xdist"]
 notebook = ["ipywidgets (>=6)"]
 slack = ["slack-sdk"]
 telegram = ["requests"]
+
+[[package]]
+name = "tree-sitter"
+version = "0.22.3"
+description = "Python bindings to the Tree-sitter parsing library"
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "tree-sitter-0.22.3.tar.gz", hash = "sha256:6516bcef5d36e0365670b97c91a169c8b1aa82ea4b60946b879020820718ce3d"},
+    {file = "tree_sitter-0.22.3-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:d9a26dd80cf10763527483b02ba35a0b8d9168f324dbbce3f07860256c29bf15"},
+    {file = "tree_sitter-0.22.3-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:4bcbe0a7358628629d9ec8e5687477e12f7c6aae6943b0872afb7170db039b86"},
+    {file = "tree_sitter-0.22.3-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:dfa45e6bf2542862ce987482fe212ef3153bd331d5bba5873b9f485f8923f65a"},
+    {file = "tree_sitter-0.22.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:4545b142da82f9668007180e0081583054682d0154cd6349796ac77dc8520d63"},
+    {file = "tree_sitter-0.22.3-cp310-cp310-musllinux_1_1_aarch64.whl", hash = "sha256:4978d22fe2868ab9a91125f49bd576ce5f954cc887c19471e0c33e104f37ba71"},
+    {file = "tree_sitter-0.22.3-cp310-cp310-musllinux_1_1_x86_64.whl", hash = "sha256:0ec593a69f8c4f1c81494147814d11b7fc6c903e5299e084ae7b89caf95cef84"},
+    {file = "tree_sitter-0.22.3-cp310-cp310-win_amd64.whl", hash = "sha256:0f66b88b8e9993630613d594e845f3cf2695fef87d0ca1475437cb17eeb72dc5"},
+    {file = "tree_sitter-0.22.3-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:9e627eb129421f63378e936b5d0e13b8befa6e7c5267a8a7621a397a84e8f1f7"},
+    {file = "tree_sitter-0.22.3-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:3cfa2a9860bfb0404ae28a9cf056dab8f2eb7f1673d8cc9b3f7e21452daad0e0"},
+    {file = "tree_sitter-0.22.3-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:d9a66cc5f19635119a9d8325bcb00a58ed48427e3c3d307caf7c00d745ac83a5"},
+    {file = "tree_sitter-0.22.3-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:de16468ea22c910e67caa91c99be9d6eb73e97e5164480a890f678b22d32faca"},
+    {file = "tree_sitter-0.22.3-cp311-cp311-musllinux_1_1_aarch64.whl", hash = "sha256:98c697427f82abab6b39cfe2ade6547d844dd419fa8cfc89031bcdf7c10579b6"},
+    {file = "tree_sitter-0.22.3-cp311-cp311-musllinux_1_1_x86_64.whl", hash = "sha256:548aa34f15a29aef1fc8e85507f13e0678a54f1de16461f844d86179b19bb5f6"},
+    {file = "tree_sitter-0.22.3-cp311-cp311-win_amd64.whl", hash = "sha256:2fc0e1097fb86623b340141e80a0f2b7668b09d953501d91adc715a577e32c61"},
+    {file = "tree_sitter-0.22.3-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:7cb5c145fbd4bcc0cd4851dc4d0a6079a8e2f61257f8c0effc92434f6fb19b14"},
+    {file = "tree_sitter-0.22.3-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:d4a592080db6b9472a886f4593b4705d02630721fdbe4a700085fe775fcab20e"},
+    {file = "tree_sitter-0.22.3-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:f36bf523763f05edf924126583ea997f905162046c0f184d6fd040cc1ccbf2c5"},
+    {file = "tree_sitter-0.22.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:f8e1193f27c25aab299f4fc154664122c7bfe80633b726bb457356d371479a5b"},
+    {file = "tree_sitter-0.22.3-cp312-cp312-musllinux_1_1_aarch64.whl", hash = "sha256:156df7e71a6c6b542ff29526cad6886a41115e42dc768c55101398d68325db54"},
+    {file = "tree_sitter-0.22.3-cp312-cp312-musllinux_1_1_x86_64.whl", hash = "sha256:82e1d467ce23dd2ecc37d4fb83965e891fc37b943639c517cd5acf54a2df0ff7"},
+    {file = "tree_sitter-0.22.3-cp312-cp312-win_amd64.whl", hash = "sha256:e541a0c08a04f229ba9479a8c441dd267fdaa3e5842ae70a744c178bcaf53fa3"},
+    {file = "tree_sitter-0.22.3-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:a85a1d0fdff21cc524a959b3277c311941a9b5b91a862e462c1b55470893884a"},
+    {file = "tree_sitter-0.22.3-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:f96c6acd2799bafa28543a267937eec6a3d9ccbdeb6e1d05858114d4cd882da9"},
+    {file = "tree_sitter-0.22.3-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:ed2708aecd3a4c8d20a89350d3c89ac2f964985ee9117c39357cee3098a9498a"},
+    {file = "tree_sitter-0.22.3-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:6b2f99535aa4195b20fef18559defaabd9e12fe8ed8806c101d51820f240ca64"},
+    {file = "tree_sitter-0.22.3-cp39-cp39-musllinux_1_1_aarch64.whl", hash = "sha256:459a0f3bf8d6dbb9e9f651d67cee3a60f0b799fefd4a33f49a7e9501ada98e35"},
+    {file = "tree_sitter-0.22.3-cp39-cp39-musllinux_1_1_x86_64.whl", hash = "sha256:4a51bfe99dcd8bbfb0fe95113f0197e6e540db3077abce77a058235beec747a3"},
+    {file = "tree_sitter-0.22.3-cp39-cp39-win_amd64.whl", hash = "sha256:8d54ef562492493bf091cb3fd605cb7e60bf1d56634a94ab48075741d823e3a5"},
+]
+
+[package.extras]
+docs = ["sphinx (>=7.3,<8.0)", "sphinx-book-theme"]
+tests = ["tree-sitter-html", "tree-sitter-javascript", "tree-sitter-json", "tree-sitter-python", "tree-sitter-rust"]
+
+[[package]]
+name = "tree-sitter-tools"
+version = "0.1.5"
+description = ""
+optional = false
+python-versions = "<4.0,>=3.9"
+files = [
+    {file = "tree_sitter_tools-0.1.5-py3-none-any.whl", hash = "sha256:a7df84cc9ccd32745b3632a49ae90cba89a0b4bddd8367077709ba2dce2cb525"},
+    {file = "tree_sitter_tools-0.1.5.tar.gz", hash = "sha256:21089db83a60afab43c4844bc71168be60489fa5763d4f543e3476724c9dd457"},
+]
+
+[package.dependencies]
+pyarrow = ">=17.0.0,<18.0.0"
+pydantic = ">=2.8.2,<3.0.0"
+tree-sitter = ">=0.22.3,<0.23.0"
 
 [[package]]
 name = "typer"
@@ -3016,4 +3175,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "c41098e7574efa21e3259a7b5e5be586633441f84796860c1b1e525ee30181bf"
+content-hash = "7c588ddff3e70047ccb1ee2ec85867b24ef54a818e36fe05173a228b01a02f1c"

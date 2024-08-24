@@ -19,6 +19,8 @@ protobuf = "^5.27.3"
 llama-index = "^0.10.65"
 uvicorn = {extras = ["standard"], version = "^0.30.5"}
 gunicorn = "^23.0.0"
+llama-index-vector-stores-tidbvector = "^0.1.2"
+tree-sitter-tools = "^0.1.5"
 
 
 [build-system]

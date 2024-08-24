@@ -16,6 +16,3 @@ def search(uuid, key):
 
 
 search("4787fd64a4ca0dba5528b5651bddd254102fe9f3", "_format_repr_exception")
-search("4787fd64a4ca0dba5528b5651bddd254102fe9f3", "_format_repr_exception")
-search("4787fd64a4ca0dba5528b5651bddd254102fe9f3", "_format_repr_exception")
-search("4787fd64a4ca0dba5528b5651bddd254102fe9f3", "_format_repr_exception")

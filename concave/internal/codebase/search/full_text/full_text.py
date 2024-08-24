@@ -1,26 +1,49 @@
-import requests
-from fastapi import HTTPException
-
-from concave.internal.codebase.search.full_text.response import ZoektResponse
+import json
+import subprocess
 
 
-class FullTextSearcher:
-    def __init__(self, endpoint="http://localhost:6070"):
-        self.endpoint = endpoint
+class FullTextSearcher():
 
-    def search(self, query: str, num: int = 100):
-        try:
-            res = requests.get("http://localhost:6070/search",
-                               params={
-                                   "q": f'f:src/.*py$ "{query}"',
-                                   "num": num,
-                                   "format": "json"
-                               })
-            raw = res.json()
-            return ZoektResponse(raw)
+    def __init__(self, work_dir):
+        self.work_dir = work_dir
 
+    def cmd(self, keys: list[str]):
+        args = [f"-e '{t}'" for t in keys]
+        return f"rg --json -n -w {' '.join(args)} --glob '*.py' {self.work_dir}"
 
+    def parse(self, rows):
+        results = {
+        }
 
-        except requests.exceptions.ConnectionError:
-            raise HTTPException(status_code=500,
-                                detail="Zoekt server is not running. Please start it using `zoekt-webserver`")
+        for row in rows:
+
+            if row['type'] != 'match':
+                continue
+            file = [
+            ]
+            path = row['data']['path']['text']
+            for m in row['data']['submatches']:
+                file.append({
+                    "line": row['data']['line_number'],
+                    "content": row['data']['lines']['text'],
+                })
+            if path not in results:
+                results[path] = []
+            results[path].extend(file)
+        return results
+
+    def search(self, keys: list[str]):
+        cmd = self.cmd(keys)
+        cmd_out = subprocess.run(["sh", "-c", cmd], stdout=subprocess.PIPE)
+        raw = cmd_out.stdout.decode('utf-8')
+        rows = [json.loads(l) for l in raw.split('\n') if l]
+        return self.parse(rows)
+
+    def print(self, results):
+        for path, files in results.items():
+            relative_path = path.replace(self.work_dir, "")
+            print(relative_path)
+            for file in files:
+                line = str(file['line']).rjust(5, ' ')
+                print(f"{line} | {file['content'].rstrip()}")
+            print()

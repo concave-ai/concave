@@ -59,8 +59,6 @@ def parse_occurrence(occurrence: pb.Occurrence, doc: pb.Document):
             end_line=r[2],
             end_char=r[3],
         )
-    print(MessageToDict(doc))
-    print(MessageToDict(occurrence))
     raise ValueError(f"Unknown symbol: {symbol}")
 
 
